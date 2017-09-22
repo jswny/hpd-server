@@ -70,35 +70,4 @@ defmodule Hpd.SystemControllerTest do
       get conn, system_path(conn, :show, -1)
     end
   end
-
-  test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, system_path(conn, :create), system: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(System, @valid_attrs)
-  end
-
-  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, system_path(conn, :create), system: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
-  end
-
-  test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    system = Repo.insert! %System{}
-    conn = put conn, system_path(conn, :update, system), system: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(System, @valid_attrs)
-  end
-
-  test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    system = Repo.insert! %System{}
-    conn = put conn, system_path(conn, :update, system), system: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
-  end
-
-  test "deletes chosen resource", %{conn: conn} do
-    system = Repo.insert! %System{}
-    conn = delete conn, system_path(conn, :delete, system)
-    assert response(conn, 204)
-    refute Repo.get(System, system.id)
-  end
 end
