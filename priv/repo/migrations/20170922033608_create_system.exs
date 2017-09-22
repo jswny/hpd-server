@@ -37,7 +37,7 @@ defmodule Hpd.Repo.Migrations.CreateSystem do
       add :capacity_total_compressionRatio, :float
       add :capacity_total_dedupeRatio, :float
       add :performance_portBandwidthData_total_dataRateKBPSAvg, :float
-      add :performance_portBandwidthData_total_iopsAvg, :integer
+      add :performance_portBandwidthData_total_iopsAvg, :float
       add :performance_portBandwidthData_total_iopsMax, :float
       add :performance_summary_portInfo_totalServiceTimeMillis, :float
       add :performance_summary_portInfo_readServiceTimeMillis, :float

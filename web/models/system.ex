@@ -36,7 +36,7 @@ defmodule Hpd.System do
     field :capacity_total_compressionRatio, :float
     field :capacity_total_dedupeRatio, :float
     field :performance_portBandwidthData_total_dataRateKBPSAvg, :float
-    field :performance_portBandwidthData_total_iopsAvg, :integer
+    field :performance_portBandwidthData_total_iopsAvg, :float
     field :performance_portBandwidthData_total_iopsMax, :float
     field :performance_summary_portInfo_totalServiceTimeMillis, :float
     field :performance_summary_portInfo_readServiceTimeMillis, :float
