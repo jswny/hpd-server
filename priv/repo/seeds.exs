@@ -10,22 +10,22 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will halt execution if something goes wrong.
 
-alias Hpd.Seeds
+alias Hpd.Import
 
 # Get a list of the data files from the /data directory
-data_files = Seeds.get_data_files()
+data_files = Import.get_data_files()
 
 for file <- data_files do
 
   # Use the first row of the data file as the list of fields and the rest of the rows as the data
-  [fields | data]  = Seeds.decode_file(file)
-  fields = Seeds.clean_fields(fields)
+  [fields | data]  = Import.decode_file(file)
+  fields = Import.clean_fields(fields)
 
   Enum.each(data, fn row ->
     fields
-    |> Seeds.map_fields(row) 
-    |> Seeds.clean_data()
-    |> Seeds.insert_system()
+    |> Import.map_fields(row) 
+    |> Import.clean_data()
+    |> Import.insert_system()
   end)
 end
 

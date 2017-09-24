@@ -1,4 +1,4 @@
-defmodule Hpd.Seeds do
+defmodule Hpd.Import do
   @moduledoc """
   Provides functions to facilitate importing CSV data to the database.
   """
@@ -47,16 +47,16 @@ defmodule Hpd.Seeds do
 
   ## Examples
   
-      iex> Hpd.Seeds.clean_data %{"recommended_osVersion" => ""}
+      iex> Hpd.Import.clean_data %{"recommended_osVersion" => ""}
       %{"recommended_osVersion" => "-"}
 
-      iex> Hpd.Seeds.clean_data %{"installDate" => ""}
+      iex> Hpd.Import.clean_data %{"installDate" => ""}
       %{"installDate" => "2001-01-01T01:01:01Z"}
 
-      iex> Hpd.Seeds.clean_data %{"foo" => ""}
+      iex> Hpd.Import.clean_data %{"foo" => ""}
       %{"foo" => 0}
 
-      iex> Hpd.Seeds.clean_data %{"bar" => "baz"}
+      iex> Hpd.Import.clean_data %{"bar" => "baz"}
       %{"bar" => "baz"}
 
   """
