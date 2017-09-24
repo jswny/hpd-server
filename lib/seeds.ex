@@ -71,8 +71,11 @@ defmodule Hpd.Seeds do
     |> Enum.into(%{})
   end
 
-  def insert_system(mapping) do
-    changeset = System.changeset(%System{}, mapping)
+  @doc """
+  Inserts a `Hpd.System` given a `map` of fields and corresponding values.
+  """
+  def insert_system(map) do
+    changeset = System.changeset(%System{}, map)
 
     case Repo.insert(changeset) do
       {:ok, struct} -> IO.puts("\n Inserted system " <> struct.systemName <> " for company " <> struct.companyName <>".")
@@ -80,7 +83,7 @@ defmodule Hpd.Seeds do
         IO.puts("\n Error inserting the following system:")
         IO.inspect(changeset)
         IO.puts("With the following values:")
-        IO.inspect(mapping)
+        IO.inspect(map)
     end
   end
 end
