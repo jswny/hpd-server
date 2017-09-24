@@ -39,7 +39,8 @@ defmodule Hpd.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:csv, "~> 2.0.0"}
+      {:csv, "~> 2.0.0"},
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false}
     ]
   end
 

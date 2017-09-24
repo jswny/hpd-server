@@ -1,6 +1,20 @@
 defmodule Hpd.SeedsTest do
   use ExUnit.Case, async: true
+  doctest Hpd.Seeds
   alias Hpd.Seeds
+
+  test "get_data_files lists all CSV files in the data directory" do
+    file_1 = ["data_test", "foo.csv"] |> Path.join()
+    file_2 = ["data_test", "bar", "baz.csv"] |> Path.join()
+
+    File.mkdir("data_test")
+    File.mkdir("data_test/bar")
+    Enum.each([file_1, file_2], fn f -> File.touch(f) end)
+
+    assert Seeds.get_data_files("data_test") == [file_2, file_1]
+
+    File.rm_rf("data_test")
+  end
 
   test "clean_fields removes whitespace and replaces periods" do
     fields = ["foo   ", "foo.bar", "   foo", " foo.bar.baz "]

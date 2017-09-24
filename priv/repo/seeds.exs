@@ -10,36 +10,22 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will halt execution if something goes wrong.
 
-alias Hpd.Repo
-alias Hpd.System
 alias Hpd.Seeds
 
-data_files = 
-  ["data", "**", "*.csv"]
-  |> Path.join()
-  |> Path.wildcard()
+# Get a list of the data files from the /data directory
+data_files = Seeds.get_data_files()
 
 for file <- data_files do
-  [fields | data]  = 
-    file
-    |> File.stream!() 
-    |> CSV.decode!() 
-    |> Enum.to_list()
 
+  # Use the first row of the data file as the list of fields and the rest of the rows as the data
+  [fields | data]  = Seeds.decode_file(file)
   fields = Seeds.clean_fields(fields)
 
-  Enum.each(data, fn r ->
-    mapping = Seeds.map_fields(fields, r) |> Seeds.clean_data()
-    changeset = System.changeset(%System{}, mapping)
-
-    case Repo.insert(changeset) do
-      {:ok, struct} -> IO.puts("\n Inserted system " <> struct.systemName <> " for company " <> struct.companyName <>".")
-      {:error, changeset} -> 
-        IO.puts("\n Error inserting the following system:")
-        IO.inspect(changeset)
-        IO.puts("With the following values:")
-        IO.inspect(mapping)
-    end
+  Enum.each(data, fn row ->
+    fields
+    |> Seeds.map_fields(row) 
+    |> Seeds.clean_data()
+    |> Seeds.insert_system()
   end)
 end
 
