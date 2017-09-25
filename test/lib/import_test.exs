@@ -1,15 +1,13 @@
 defmodule Hpd.ImportTest do
   use ExUnit.Case, async: true
-  import ExUnit.CaptureIO
   doctest Hpd.Import
-
+  import ExUnit.CaptureLog
+  require Logger
   import Ecto.Query
   alias Hpd.Repo
   alias Hpd.Import
   alias Hpd.System
-
-  @valid_attrs %{nodes_cpuAvgMax: 42, osVersion: "some osVersion", disksState: "some disksState", performance_summary_vvInfo_vvsByType_ssd_readServiceTimeMillis: 120.5, capacity_byType_fc_freeTiB: 120.5, performance_summary_portInfo_totalServiceTimeMillis: 120.5, serialNumber: 42, capacity_total_sizeTiB: 120.5, performance_portBandwidthData_total_iopsAvg: 42, performance_summary_portInfo_readServiceTimeMillis: 120.5, performance_portBandwidthData_total_dataRateKBPSAvg: 120.5, disks_total_diskCount: 42, performance_summary_vvInfo_vvsByType_ssd_readBandwidthMBPS: 120.5, capacity_total_freePct: 120.5, capacity_total_compressionRatio: 120.5, nodes_nodeCountOffline: 42, capacity_total_freeTiB: 120.5, capacity_byType_ssd_freeTiB: 120.5, performance_summary_delAckPct: 120.5, disks_total_diskCountNormal: 42, vvCount: 42, capacity_byType_ssd_sizeTiB: 120.5, companyName: "some companyName", performance_portBandwidthData_total_iopsMax: 120.5, cpgCount: 42, recommended_osVersion: "some recommended_osVersion", nodes_nodeCount: 42, location_country: "some location_country", capacity_byType_fc_sizeTiB: 120.5, disks_total_diskCountFailed: 42, systemName: "some systemName", capacity_byType_nl_sizeTiB: 120.5, installDate: ~N[2010-04-17 14:00:00.000000], performance_summary_vvInfo_vvsByType_ssd_writeBandwidthMBPS: 120.5, productFamily: 42, capacity_total_dedupeRatio: 120.5, capacity_byType_nl_freeTiB: 120.5, performance_summary_vvInfo_vvsByType_ssd_writeServiceTimeMillis: 120.5, updated: ~N[2010-04-17 14:00:00.000000], disks_total_diskCountDegraded: 42, performance_summary_portInfo_writeServiceTimeMillis: 120.5, capacity_total_compactionRatio: 120.5, tpvvCount: 42, location_region: "some location_region", model: "some model"}
-  @invalid_attrs %{}
+  import Hpd.TestHelpers
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Hpd.Repo)
@@ -88,7 +86,8 @@ defmodule Hpd.ImportTest do
 
   test "insert_system inserts a valid system into the database" do
     count_before = system_count()
-    assert capture_io(fn -> Import.insert_system(@valid_attrs) end) =~ "Inserted system some systemName for company some companyName."
+    Import.insert_system(valid_system_attrs())
+    # assert capture_log(fn -> Import.insert_system(valid_system_attrs()) end) =~ "Inserted system \"some systemName\" for company \"some companyName\"."
     count_after = system_count()
 
     assert count_after == (count_before + 1)
@@ -96,7 +95,7 @@ defmodule Hpd.ImportTest do
 
   test "insert_system does not insert an invalid system into the database" do
     count_before = system_count()
-    assert capture_io(fn -> Import.insert_system(@invalid_attrs) end) =~ "Error inserting the following system:"
+    assert capture_log(fn -> Import.insert_system(invalid_system_attrs()) end) =~ "Error inserting system!"
     count_after = system_count()
 
     assert count_after == count_before

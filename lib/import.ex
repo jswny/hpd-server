@@ -5,6 +5,7 @@ defmodule Hpd.Import do
 
   alias Hpd.Repo
   alias Hpd.System
+  require Logger
 
   @doc """
   Gets a list of the CSV data files in the `/data` directory.
@@ -78,12 +79,10 @@ defmodule Hpd.Import do
     changeset = System.changeset(%System{}, map)
 
     case Repo.insert(changeset) do
-      {:ok, struct} -> IO.puts("\n Inserted system " <> struct.systemName <> " for company " <> struct.companyName <>".")
+      {:ok, struct} -> Logger.info "Inserted system \"#{struct.systemName}\" for company \"#{struct.companyName}\""
       {:error, changeset} -> 
-        IO.puts("\n Error inserting the following system:")
-        IO.inspect(changeset)
-        IO.puts("With the following values:")
-        IO.inspect(map)
+        Logger.error "Error inserting system! #{inspect(changeset.errors)}"
+        Logger.info "System details: \n #{inspect(map)}"
     end
   end
 end

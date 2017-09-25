@@ -51,5 +51,7 @@ defmodule Hpd.Repo.Migrations.CreateSystem do
 
       timestamps()
     end
+
+    create unique_index(:systems, [:companyName, :systemName], name: :system_company_index)
   end
 end

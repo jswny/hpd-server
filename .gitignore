@@ -17,3 +17,6 @@ erl_crash.dump
 
 # Docs (for now)
 /doc
+
+# Vim files
+*.swp
