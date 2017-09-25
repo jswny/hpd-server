@@ -3,6 +3,7 @@ defmodule Hpd.User do
 
   schema "users" do
     field :username, :string
+    field :password, :string, virtual: true
     field :password_hash, :string
 
     timestamps()
@@ -13,8 +14,16 @@ defmodule Hpd.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:username, :password_hash])
-    |> validate_required([:username, :password_hash])
+    |> cast(params, [:username, :password])
+    |> validate_required([:username, :password])
     |> unique_constraint(:username)
+    |> put_pass_hash()
+  end
+
+  defp put_pass_hash(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: pass}} -> put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass))
+      _ -> changeset
+    end
   end
 end

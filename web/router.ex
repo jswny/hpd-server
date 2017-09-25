@@ -7,6 +7,7 @@ defmodule Hpd.Router do
 
   scope "/api", Hpd do
     pipe_through :api
-    resources "/systems", SystemController, except: [:new, :edit]
+    resources "/systems", SystemController, only: [:index, :show]
+    resources "/users", UserController, only: [:create] 
   end
 end

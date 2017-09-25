@@ -58,4 +58,14 @@ defmodule Hpd.TestHelpers do
   Returns a map of invalid attributes for a `Hpd.System` struct.
   """
   def invalid_system_attrs(), do: %{}
+
+  @doc """
+  Returns a map of valid attributes for a `Hpd.User` struct.
+  """
+  def valid_user_attrs(), do: %{password: "password", username: "username"}
+  
+  @doc """
+  Returns a map of invalid attributes for a `Hpd.User` struct.
+  """
+  def invalid_user_attrs, do: %{}
 end
