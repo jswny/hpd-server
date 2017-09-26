@@ -79,7 +79,7 @@ defmodule Hpd.Import do
     changeset = System.changeset(%System{}, map)
 
     case Repo.insert(changeset) do
-      {:ok, struct} -> Logger.info "Inserted system \"#{struct.systemName}\" for company \"#{struct.companyName}\""
+      {:ok, struct} -> Logger.info "Inserted system \"#{struct.systemName}\" for company \"#{struct.companyName}\"."
       {:error, changeset} -> 
         Logger.error "Error inserting system! #{inspect(changeset.errors)}"
         Logger.info "System details: \n #{inspect(map)}"

@@ -87,7 +87,6 @@ defmodule Hpd.ImportTest do
   test "insert_system inserts a valid system into the database" do
     count_before = system_count()
     Import.insert_system(valid_system_attrs())
-    # assert capture_log(fn -> Import.insert_system(valid_system_attrs()) end) =~ "Inserted system \"some systemName\" for company \"some companyName\"."
     count_after = system_count()
 
     assert count_after == (count_before + 1)
