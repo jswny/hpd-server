@@ -1,6 +1,5 @@
 defmodule Hpd.SessionControllerTest do
   use Hpd.ConnCase
-  alias Hpd.User
   alias Hpd.Auth
   import Hpd.TestHelpers
 
@@ -9,10 +8,7 @@ defmodule Hpd.SessionControllerTest do
   end
 
   test "creates new session and renders username and valid token when user is valid", %{conn: conn} do
-    user =
-      %User{}
-      |> User.changeset(valid_user_attrs())
-      |> Repo.insert!()
+    user = insert_user(valid_user_attrs())
 
     conn = post conn, session_path(conn, :create), session: %{username: valid_user_attrs().username, password: valid_user_attrs().password} 
     response = json_response(conn, 201)["data"]
@@ -28,9 +24,7 @@ defmodule Hpd.SessionControllerTest do
   end
   
   test "does not generate token and renders unauthorized error when password is incorrect", %{conn: conn} do
-    %User{}
-    |> User.changeset(valid_user_attrs())
-    |> Repo.insert!()
+    insert_user(valid_user_attrs())
 
     conn = post conn, session_path(conn, :create), session: %{username: "username", password: "wrong"} 
     response = json_response(conn, 401)["data"]

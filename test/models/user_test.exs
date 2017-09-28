@@ -22,9 +22,7 @@ defmodule Hpd.UserTest do
   end
 
   test "converts unique_constraint on username to error" do
-    %User{}
-    |> User.changeset(valid_user_attrs())
-    |> Repo.insert!()
+    insert_user(valid_user_attrs())
 
     changeset = User.changeset(%User{}, valid_user_attrs())
     assert {:error, changeset} = Repo.insert(changeset)

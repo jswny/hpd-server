@@ -1,4 +1,15 @@
 defmodule Hpd.TestHelpers do
+  alias Hpd.User
+  alias Hpd.Repo
+
+  @doc """
+  Inserts a `Hpd.User` with the given `attrs` into the database.
+  """
+  def insert_user(attrs) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert!()
+  end
 
   @doc """
   Returns a map of valid attributes for a `Hpd.System` struct.
