@@ -53,7 +53,6 @@ defmodule Hpd.TestHelpers do
    }
   end
 
-
   @doc """
   Returns a map of invalid attributes for a `Hpd.System` struct.
   """

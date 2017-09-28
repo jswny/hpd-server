@@ -9,5 +9,6 @@ defmodule Hpd.Router do
     pipe_through :api
     resources "/systems", SystemController, only: [:index, :show]
     resources "/users", UserController, only: [:create] 
+    resources "/sessions", SessionController, only: [:create]
   end
 end
