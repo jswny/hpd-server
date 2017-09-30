@@ -8,6 +8,22 @@ defmodule Hpd.ErrorView do
   def render("500.json", _assigns) do
     %{errors: %{detail: "Internal server error"}}
   end
+  
+  def render("401.json", %{status: :not_found}) do
+    %{errors: %{detail: "Specified user does not exist"}}
+  end
+  
+  def render("401.json", %{status: :unauthorized}) do
+    %{errors: %{detail: "Invalid username or password"}}
+  end
+
+  def render("401.json", %{status: :no_token}) do
+    %{errors: %{detail: "No token provided"}}
+  end
+
+  def render("401.json", %{status: :invalid_token}) do
+    %{errors: %{detail: "Invalid token"}}
+  end
 
   # In case no render clause matches or no
   # template is found, let's render it as 500

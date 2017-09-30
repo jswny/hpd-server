@@ -1,5 +1,6 @@
 defmodule Hpd.TestHelpers do
   alias Hpd.User
+  alias Hpd.System
   alias Hpd.Repo
 
   @doc """
@@ -8,6 +9,15 @@ defmodule Hpd.TestHelpers do
   def insert_user(attrs) do
     %User{}
     |> User.changeset(attrs)
+    |> Repo.insert!()
+  end
+  
+  @doc """
+  Inserts a `Hpd.System` with the given `attrs` into the database.
+  """
+  def insert_system(attrs) do
+    %System{}
+    |> System.changeset(attrs)
     |> Repo.insert!()
   end
 

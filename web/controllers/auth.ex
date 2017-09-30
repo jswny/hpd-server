@@ -1,10 +1,34 @@
 defmodule Hpd.Auth do
   @moduledoc """
-  Provides user authentication funcitonality via tokens from `Phoenix.Token`.
+  Provides user authentication functionality using tokens from `Phoenix.Token`.
   """
-  
+
   alias Hpd.Repo
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
+  import Phoenix.Controller
+  import Plug.Conn
+
+  @doc """
+  Function plug which determines API authentication.
+
+  Uses `conn.body_params.token` to determine whether a request is authorized. If `token` is not present or invalid, a `403` error is rendered.
+  """
+  def check_token(%Plug.Conn{params: %{"token" => token}} = conn, _default) do
+    case Hpd.Auth.verify_token(token) do
+      {:ok, _user_id} -> conn
+      {:error, _} -> 
+        conn
+        |> put_status(:unauthorized)
+        |> render(Hpd.ErrorView, "401.json", status: :invalid_token)
+        |> halt()
+    end
+  end
+  def check_token(conn, _default) do
+    conn
+    |> put_status(:unauthorized)
+    |> render(Hpd.ErrorView, "401.json", status: :no_token)
+    |> halt()
+  end
 
   @doc """
   Authenticated an `Hpd.User` by a given `username` and `password`.

@@ -1,16 +1,25 @@
 defmodule Hpd.AuthTest do
   use ExUnit.Case, async: true
+  use Hpd.ConnCase 
   import Hpd.TestHelpers
   alias Hpd.Auth
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Hpd.Repo)
+  test "check_token renders an error when no token is provided", %{conn: conn} do
+    conn = Auth.check_token(conn, []) 
+    assert json_response(conn, 401)["errors"]["detail"] == "No token provided" 
+  end
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Hpd.Repo, {:shared, self()})
-    end
+  test "check_token renders an error when an invalid token is provided", %{conn: conn} do
+    conn =
+      build_conn(:post, system_path(conn, :index), %{token: "wrong"}) 
+      |> Auth.check_token([]) 
+    assert json_response(conn, 401)["errors"]["detail"] == "Invalid token" 
+  end
 
-    :ok
+  test "check_token does not modify the connection when a valid token is provided", %{conn: conn} do
+    token = Auth.generate_token(1)
+    conn = build_conn(:post, system_path(conn, :index), %{token: token}) 
+    assert conn == Auth.check_token(conn, []) 
   end
 
   test "verify_token verifies a valid token" do

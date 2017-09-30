@@ -1,23 +1,41 @@
 defmodule Hpd.SystemControllerTest do
   use Hpd.ConnCase
-  alias Hpd.System
   import Hpd.TestHelpers
   
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  test "lists all entries on index", %{conn: conn} do
-    conn = get conn, system_path(conn, :index)
+  setup tags do
+    if tags[:generate_token] do
+      user = insert_user(valid_user_attrs())
+      token = Hpd.Auth.generate_token(user.id)
+      %{token: token}
+    else
+      :ok
+    end  
+  end
+
+  @tag generate_token: true
+  test "lists all entries on index when token is valid", %{conn: conn, token: token} do
+    conn = post(conn, system_path(conn, :show), token: token)
     assert json_response(conn, 200)["data"] == []
   end
 
-  test "shows chosen resource", %{conn: conn} do
-    system =
-      %System{}
-      |> System.changeset(valid_system_attrs())
-      |> Repo.insert!()
-    conn = get conn, system_path(conn, :show, system)
+  test "renders an error on index when token is not provided", %{conn: conn} do
+    conn = post(conn, system_path(conn, :show))
+    assert json_response(conn, 401)["errors"]["detail"] == "No token provided"
+  end
+
+  test "renders an error on index when token is invalid", %{conn: conn} do
+    conn = post(conn, system_path(conn, :show), token: "wrong")
+    assert json_response(conn, 401)["errors"]["detail"] == "Invalid token"
+  end
+
+  @tag generate_token: true
+  test "shows chosen system when token is valid", %{conn: conn, token: token} do
+    system = insert_system(valid_system_attrs())
+    conn = post(conn, system_path(conn, :show), %{token: token, id: system.id})
 
     assert json_response(conn, 200)["data"] == %{
       "id" => system.id,
@@ -68,9 +86,22 @@ defmodule Hpd.SystemControllerTest do
       "nodes_cpuAvgMax" => system.nodes_cpuAvgMax} 
   end
 
-  test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
-      get conn, system_path(conn, :show, -1)
-    end
+  test "shows chosen system when token is not provided", %{conn: conn} do
+    system = insert_system(valid_system_attrs())
+    conn = post(conn, system_path(conn, :show), %{id: system.id})
+    assert json_response(conn, 401)["errors"]["detail"] == "No token provided" 
+  end
+
+  test "shows chosen system when token is invalid", %{conn: conn} do
+    system = insert_system(valid_system_attrs())
+    conn = post(conn, system_path(conn, :show), %{token: "wrong", id: system.id})
+    assert json_response(conn, 401)["errors"]["detail"] == "Invalid token" 
+  end
+
+  @tag generate_token: true
+  test "renders page not found when id is nonexistent", %{conn: conn, token: token} do
+    assert_error_sent(404, fn ->
+      post(conn, system_path(conn, :show), %{token: token, id: -1})
+    end)
   end
 end
