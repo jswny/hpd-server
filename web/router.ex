@@ -8,8 +8,7 @@ defmodule Hpd.Router do
   scope "/api", Hpd do
     pipe_through :api
     resources "/users", UserController, only: [:create] 
-    post "/systems", SystemController, :show
-    post "/systems", SystemController, :index
+    resources "/systems", SystemController, only: [:index, :show] 
     resources "/sessions", SessionController, only: [:create]
   end
 end

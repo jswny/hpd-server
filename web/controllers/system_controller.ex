@@ -6,13 +6,13 @@ defmodule Hpd.SystemController do
   # Specify that these routes require a valid API token to access
   plug :check_token
 
+  def index(conn, _params) do
+    systems = Repo.all(System)
+    render(conn, "index.json", systems: systems)
+  end
+
   def show(conn, %{"id" => id}) do
     system = Repo.get!(System, id)
     render(conn, "show.json", system: system)
-  end
-
-  def show(conn, _params) do
-    systems = Repo.all(System)
-    render(conn, "index.json", systems: systems)
   end
 end
