@@ -17,9 +17,27 @@ defmodule Hpd.SystemControllerTest do
   end
 
   @tag generate_token: true
-  test "lists all entries on index when token is valid", %{conn: conn, token: token} do
+  test "returns empty list on index when token is valid and no systems exist", %{conn: conn, token: token} do
     conn = get(conn, system_path(conn, :index), token: token)
     assert json_response(conn, 200)["data"] == []
+  end
+
+  @tag generate_token: true
+  test "lists all entries on index when token is valid", %{conn: conn, token: token} do
+    names = ["foo", "bar", "baz"]
+    systems = Enum.map(names, fn name -> 
+      %{valid_system_attrs() | "systemName" => name}
+      |> Map.update!("installDate", &NaiveDateTime.to_iso8601/1)
+      |> Map.update!("updated", &NaiveDateTime.to_iso8601/1)
+    end)
+    Enum.each(systems, fn s -> insert_system(s) end)
+    conn = get(conn, system_path(conn, :index), token: token)
+    response = 
+      json_response(conn, 200)["data"]
+      |> Enum.map(fn s ->
+        Map.delete(s, "id")
+      end)
+    assert response == systems
   end
 
   test "renders an error on index when token is not provided", %{conn: conn} do
@@ -92,7 +110,7 @@ defmodule Hpd.SystemControllerTest do
     assert json_response(conn, 401)["errors"]["detail"] == "No token provided" 
   end
 
-  test "renders and error on show when token is invalid", %{conn: conn} do
+  test "renders an error on show when token is invalid", %{conn: conn} do
     system = insert_system(valid_system_attrs())
     conn = get(conn, system_path(conn, :show, system), %{token: "wrong"})
     assert json_response(conn, 401)["errors"]["detail"] == "Invalid token" 

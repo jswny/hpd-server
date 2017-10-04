@@ -48,7 +48,7 @@ defmodule Hpd.ImportTest do
     File.write(path, content)
 
     expected = [["one", "two", "three"], ["foo", "bar", "baz"]]
-    assert assert Import.decode_file(path) == expected
+    assert Import.decode_file(path) == expected
   end
 
   test "clean_fields removes whitespace and replaces periods" do

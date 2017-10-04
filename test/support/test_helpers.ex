@@ -34,7 +34,7 @@ defmodule Hpd.TestHelpers do
     "performance_summary_portInfo_totalServiceTimeMillis" => 120.5, 
     "serialNumber" => 42, 
     "capacity_total_sizeTiB" => 120.5, 
-    "performance_portBandwidthData_total_iopsAvg" => 42, 
+    "performance_portBandwidthData_total_iopsAvg" => 42.0, 
     "performance_summary_portInfo_readServiceTimeMillis" => 120.5, 
     "performance_portBandwidthData_total_dataRateKBPSAvg" => 120.5, 
     "disks_total_diskCount" => 42, 
