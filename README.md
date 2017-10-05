@@ -1,4 +1,4 @@
-# HPD Server ![Travis CI status](https://travis-ci.org/jswny/hpd-server.svg?branch=master)
+# HPD Server [![Build Status](https://travis-ci.org/jswny/hpd-server.svg?branch=master)](https://travis-ci.org/jswny/hpd-server) 
 
 ## Installation
 
