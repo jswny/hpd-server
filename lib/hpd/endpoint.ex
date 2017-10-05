@@ -36,5 +36,8 @@ defmodule Hpd.Endpoint do
     key: "_hpd_key",
     signing_salt: "+ngqdlFc"
 
+  # Allow cross-origin reqests (CORS)  
+  plug CORSPlug
+
   plug Hpd.Router
 end

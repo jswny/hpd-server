@@ -41,7 +41,8 @@ defmodule Hpd.Mixfile do
       {:cowboy, "~> 1.0"},
       {:csv, "~> 2.0.0"},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
-      {:comeonin, "~> 2.0"}
+      {:comeonin, "~> 2.0"},
+      {:cors_plug, "~> 1.2"}
     ]
   end
 
