@@ -7,7 +7,7 @@ defmodule Hpd.SessionController do
       {:ok, token} -> 
         conn
         |> put_status(:created)
-        |> render("login_success.json", [username: username, token: token])
+        |> render("show.json", [username: username, token: token])
       {:error, status} -> 
         conn
         |> put_status(status)

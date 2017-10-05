@@ -10,7 +10,7 @@ defmodule Hpd.UserController do
       {:ok, user} ->
         conn
         |> put_status(:created)
-        |> render("user_success.json", user: user)
+        |> render("show.json", user: user)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
