@@ -10,7 +10,9 @@ defmodule Hpd.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test]
     ]
   end
 
@@ -42,7 +44,8 @@ defmodule Hpd.Mixfile do
       {:csv, "~> 2.0.0"},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:comeonin, "~> 2.0"},
-      {:cors_plug, "~> 1.2"}
+      {:cors_plug, "~> 1.2"},
+      {:excoveralls, "~> 0.7", only: :test} 
     ]
   end
 
