@@ -27,7 +27,7 @@ The tests are written using the default Elixir testing framework called [ExUnit]
 
 To run the tests, you can run `mix test`. If you want to see which tests are running instead of just which tests are failing (which none should be), you can run `mix test --trace`.
 
-## Documentation
+### Documentation
 Documentation is written inline primarily using `@doc` and `@moduledoc` module attributes. You can read more about Elixir documentation [here](https://hexdocs.pm/elixir/writing-documentation.html#content). To generate the documentation for HPD Server locally, run `mix docs`. Then, the documentation will be generated into the `/doc` folder, which you can view with your browser.
 
 There is not much documentation required because this is a web application, however modules like the `Hpd.Import` module for importing CSV data into the database are well documented.
