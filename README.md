@@ -1,4 +1,4 @@
-# HPD Server [![Build Status](https://travis-ci.org/jswny/hpd-server.svg?branch=master)](https://travis-ci.org/jswny/hpd-server) 
+# HPD Server [![Build Status](https://travis-ci.org/jswny/hpd-server.svg?branch=master)](https://travis-ci.org/jswny/hpd-server) [![Coverage Status](https://coveralls.io/repos/github/jswny/hpd-server/badge.svg?branch=master)](https://coveralls.io/github/jswny/hpd-server?branch=master) 
 
 ## Installation
 
