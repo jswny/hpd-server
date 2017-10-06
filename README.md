@@ -75,6 +75,9 @@ Status: `201`
 }
 ```
 
+#### Errors
+Validation errors such as no username provided or no password provided.
+
 ### Create a session (token)
 
 #### Endpoint
@@ -92,6 +95,12 @@ Status: `201`
   "token": "SFMyNTY.g3QAAAACZAAEZGF0YWEBZAAGc2lnbmVkbgYA9DCv8V4B.7NpcBsw0yWngXRJllOGjtuc-CohROT93W8mWQckEih4"
 }
 ```
+
+#### Errors
+| Status | Description | Response |
+| ------ | ----------- | -------- |
+| `401`  | User does not exist | `{"errors": {"detail": "Specified user does not exist"}}` |
+| `401`  | Invalid credentials | `{"errors": {"detail": "Invalid username or password"}}` |
 
 ### Get all systems
 
@@ -208,6 +217,12 @@ Status: `201`
 }
 ```
 
+#### Errors
+| Status | Description | Response |
+| ------ | ----------- | -------- |
+| `401`  | Missing token | `{"errors": {"detail": "No token provided"}}` |
+| `401`  | Invalid token | `{"errors": {"detail": "Invalid token"}}` |
+
 ### Get a system
 
 #### Endpoint
@@ -272,6 +287,13 @@ Status: `201`
   }
 }
 ```
+
+#### Errors
+| Status | Description | Response |
+| ------ | ----------- | -------- |
+| `401`  | Missing token | `{"errors": {"detail": "No token provided"}}` |
+| `401`  | Invalid token | `{"errors": {"detail": "Invalid token"}}` |
+
 
 ## Resources
 
