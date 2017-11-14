@@ -15,7 +15,7 @@
 5. Start the Postgres server and verify that you can login with the above user.
 6. Start the server:
     * Install dependencies with `mix deps.get`
-    * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+    * Create and migrate your database with `mix ecto.setup`
     * Start Phoenix endpoint with `mix phoenix.server`
 
 Now the server should be running on [`localhost:4000`](http://localhost:4000).
