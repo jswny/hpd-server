@@ -7,7 +7,7 @@ defmodule Hpd.SystemController do
   plug :check_token
 
   def index(conn, _params) do
-    systems = Repo.all(System)
+    systems = Repo.all(from s in System, limit: 10)
     render(conn, "index.json", systems: systems)
   end
 
